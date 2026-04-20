@@ -1,8 +1,14 @@
 from groq import Groq
 import json 
+import os
+from dotenv import load_dotenv
+from datetime import date
+load_dotenv()
+
+GROK_KEY = os.getenv("GROQ_API_KEY")
 
 class LLMService:
-    def __init__(self, api_key, model_id, system_message = None):
+    def __init__(self, api_key = GROK_KEY, model_id = "llama-3.3-70b-versatile", system_message = None):
         self.client = Groq(api_key = api_key)
         self.model_id = model_id
         self.system_message = system_message
@@ -31,7 +37,7 @@ class LLMService:
             "content" : prompt
         }
     
-    def generate_text(self, prompt:str, temperature:float, max_tokens:int): 
+    def generate_text(self, prompt:str, temperature:float = 0.5, max_tokens:int = 1024): 
         
         try:
             response = self.client.chat.completions.create(
@@ -88,6 +94,7 @@ class LLMService:
         - status (Pending or Completed)
 
         Rules:
+        - If only day is given, write the due date with respect to current date: {date.today()}
         - Return raw JSON only, no explanation.
         - If a field is missing use null
 

@@ -13,9 +13,8 @@ groq_api = os.getenv("GROQ_API_KEY")
 system_prompt = """
 You are a meeting assistant for a company. You are detail oriented and professional.
     """
-llm_service = LLMService(
-    api_key=groq_api, model_id="llama-3.3-70b-versatile", system_message=system_prompt
-)
+llm_service = LLMService(system_message=system_prompt)
+
 meeting_service = MeetingService()
 task_service = TaskService()
 user_service = UserService()
@@ -25,9 +24,8 @@ router = APIRouter(prefix="/emails")
 
 @router.post("/draft/{meeting_id}")
 def draft_email(meeting_id: UUID):
-    email = email_service.draft_email(
-        max_tokens=1024, temperature=0.5, meeting_id=meeting_id
-    )
+    email = email_service.draft_email(meeting_id=meeting_id)
+
     email_subject = email["subject"]
     email_body = email["email_body"]
 
@@ -39,10 +37,10 @@ def save_email(meeting_id: UUID, subject: str, body: str, recipient: str):
     response = email_service.save_email(meeting_id, body, recipient, subject)
     return {"email_id": response}
 
-@router.post("/send/{email_id}")
-def send_emails(meeting_id:UUID, temperature: float, max_tokens: int):
-
-    email_service.send_bulk_emails(meeting_id, temperature, max_tokens)
+@router.post("/send/{meeting_id}")
+def send_emails(meeting_id:UUID):
+    """Drafts, saves, sends email then also updates status"""
+    email_service.send_bulk_emails(meeting_id)
 
     return {"message": "Emails sent successfully"}
 

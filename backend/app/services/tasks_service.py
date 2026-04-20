@@ -55,7 +55,7 @@ class TaskService:
                 .eq("id", str(task_id))
                 .execute()
             )
-            return response.data
+            return response
 
         except Exception as e:
             raise RuntimeError(f"Failed to fetch task: {e}")

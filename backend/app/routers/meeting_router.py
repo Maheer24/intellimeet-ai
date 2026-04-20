@@ -3,6 +3,10 @@ from backend.app.services.meeting_service import MeetingService
 from backend.app.services.llm_service import LLMService
 from backend.app.services.meeting_service import MeetingService
 from backend.app.services.tasks_service import TaskService
+from backend.app.services.rag_service import RAGService
+from backend.app.services.embedding_service import EmbeddingService
+from backend.app.services.vector_store import PineconeService
+from backend.app.services.memory_service import MemoryService
 from uuid import UUID
 import os
 import json
@@ -20,7 +24,11 @@ You are a meeting assistant for a software company. You are detail oriented and 
 llm_service = LLMService(api_key=groq_api, model_id="llama-3.3-70b-versatile", system_message=system_prompt)
 meeting_service = MeetingService()
 task_service = TaskService()
+embedding_service = EmbeddingService()
+pinecone_service = PineconeService()
+memory_service = MemoryService()
 
+rag_service = RAGService(embedding_service, pinecone_service, llm_service, task_service, memory_service)
 
 @router.post("/upload")
 async def upload_meeting_transcript(file: UploadFile = File(...)):
@@ -34,6 +42,8 @@ async def upload_meeting_transcript(file: UploadFile = File(...)):
 
     meeting_id = meeting_service.save_meeting(summary, transcript, title)
 
+    print("Calling Ingest Meeting")
+    rag_service.ingest_meeting(transcript, meeting_id, 30, 200)
     #json_list = json.loads(tasks)
 
     for task_obj in tasks:

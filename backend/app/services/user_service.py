@@ -50,3 +50,11 @@ class UserService:
 
         except Exception as e:
             raise RuntimeError(f"Error updating user email: {e}")
+        
+    def get_all_users(self):
+        try:
+            response = supabase.table("users").select("id","name","email").execute()
+            return response.data
+        except Exception as e:
+            raise RuntimeError(f"Error retrieving user data: {e}")
+

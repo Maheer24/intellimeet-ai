@@ -17,4 +17,8 @@ def delete_user(user_id:UUID):
 @router.patch("/")
 def update_email(user_id: UUID, email: str):
     return user_service.update_user_email(user_id, email)
+
+@router.get("/")
+def get_users():
+    return user_service.get_all_users()
     

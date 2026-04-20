@@ -27,7 +27,7 @@ class MeetingService:
                 .execute()
             )
 
-            return response.data["summary"]
+            return response
 
         except Exception as e:
             raise RuntimeError(f"Faled to fetch meeting: {e}")
@@ -36,10 +36,10 @@ class MeetingService:
         try:
             response = (
                 supabase.table("meetings")
-                .select("summary", "transcript", "title")
+                .select("id","summary", "transcript", "title")
                 .execute()
             )
-            return response.data
+            return response
 
         except Exception as e:
             raise RuntimeError(f"Faled to fetch meetings: {e}")

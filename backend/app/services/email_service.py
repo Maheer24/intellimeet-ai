@@ -24,7 +24,7 @@ class EmailService:
         self.user_service = user_service
 
     def draft_email(
-        self, temperature: float, max_tokens: int, name: str, summary: str, tasks: list
+        self,  name: str, summary: str, tasks: list, temperature: float = 0.5, max_tokens: int = 1024
     ):
 
         prompt = f"""
@@ -69,7 +69,7 @@ class EmailService:
         except Exception as e:
             raise RuntimeError(f"Error drafting email: {e}")
 
-    def send_bulk_emails(self, meeting_id: UUID, temperature: float, max_tokens: int):
+    def send_bulk_emails(self, meeting_id: UUID):
         try:
             summary = self.meeting_service.get_meeting_summary(meeting_id)
             tasks = self.task_service.get_task_by_meeting(str(meeting_id))
@@ -94,7 +94,7 @@ class EmailService:
                 name = user["name"]
 
                 email_draft = self.draft_email(
-                    temperature, max_tokens, name, summary, task_list
+                    name, summary, task_list
                 )
 
                 subject = email_draft["subject"]
@@ -188,7 +188,7 @@ class EmailService:
                 .eq("meeting_id", str(meeting_id))
                 .execute()
             )
-            email_data = email.data[0]
+            email_data = email.data
             return email_data
 
         except Exception as e:
