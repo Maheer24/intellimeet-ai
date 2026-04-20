@@ -8,3 +8,6 @@ pandas
 python-multipart
 pydantic
 groq
+sentence-transformers
+sklearn
+pinecone
