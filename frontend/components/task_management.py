@@ -19,5 +19,5 @@ def task_management():
         col3.write(task["status"])
 
         if col4.button("Complete", key=task["id"]):
-            update_task(task["id"], "Completed")
+            update_task(task["id"])
             st.rerun()

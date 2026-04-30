@@ -8,8 +8,14 @@ def user_management():
     email = st.text_input("Email")
 
     if st.button("Add User"):
-        add_user(name, email)
-        st.success("User added")
+
+        res = add_user(name, email)
+
+        if "error" in res:
+            st.error("Failed to add user")
+        else:
+            st.success("User added")
+
 
     users = get_users()
 
@@ -21,14 +27,34 @@ def user_management():
     #st.write(users)
 
     for user in users:
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3 = st.columns([2,3,2])
 
-        col1.write(user["name"])
-        new_email = col2.text_input("Update Email", key=user["id"])
+        # Column 1: Name
+        with col1.container():
+            st.markdown("#####")  # spacing
+            st.markdown("#####")
+            st.write(user["name"])
 
-        if col2.button("Update", key=f"u{user['id']}"):
-            update_user_email(user["id"], new_email)
+        # Column 2: Email input
+        with col2.container():
+            st.markdown("#####")
+            new_email = st.text_input(
+                label="Email",
+                key=user["id"]
+            )
 
-        if col3.button("Delete", key=f"d{user['id']}"):
-            delete_user(user["id"])
-            st.rerun()
+        # Column 3: Buttons
+        with col3.container():
+            st.markdown("#####")
+            btn1, btn2 = st.columns(2)
+
+            if btn1.button("Update", key=f"u{user['id']}"):
+                res = update_user_email(user["id"], new_email)
+                if "error" in res:
+                    st.error("Failed to update user email")
+                else:
+                    st.success("Updated user email")
+
+            if btn2.button("Delete", key=f"d{user['id']}"):
+                delete_user(user["id"])
+                st.rerun()

@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 from uuid import UUID
 from backend.app.services.rag_service import RAGService
 from backend.app.services.vector_store import PineconeService
@@ -19,7 +19,7 @@ rag_service = RAGService(embedding_service, pinecone_service, llm_service, task_
 router = APIRouter(prefix="/chat")
 
 @router.post("/")
-def post_query(user_query:str, meeting_id:UUID, session_id:UUID):
+def post_query(user_query:str = Body(...), meeting_id:UUID = Body(...), session_id:UUID = Body(...)):
     response = rag_service.query(user_query, meeting_id, str(session_id))
     return {"response": response}
 

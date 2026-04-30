@@ -10,27 +10,32 @@ def show_chat():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    user_input = st.text_input("Ask something...", key="chat_input")
+    # Display chat messages
+    for role, msg in st.session_state.chat_history:
+        with st.chat_message(role):
+            st.markdown(msg)
 
-    if st.button("Send"):
-        if user_input:
-            meeting_id = st.session_state.get("meeting_id")
+    # Chat input at bottom
+    user_input = st.chat_input("Ask something about your meeting...")
 
-            if not meeting_id:
-                st.warning("Please upload a meeting first")
-                return
+    if user_input:
+        meeting_id = st.session_state.get("meeting_id")
 
+        if not meeting_id:
+            st.warning("Please upload a meeting first")
+            return
+
+        # Show user message instantly
+        st.session_state.chat_history.append(("user", user_input))
+
+        with st.chat_message("user"):
+            st.markdown(user_input)
+
+        # Get assistant response
+        with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 response = send_query(user_input, meeting_id, session_id)
+                st.markdown(response)
 
-                st.session_state.chat_history.append(("user", user_input))
-                st.session_state.chat_history.append(("assistant", response))
-
-            st.session_state.chat_input = "" 
-
-    # Display chat
-    for role, msg in reversed(st.session_state.chat_history):
-        if role == "user":
-            st.markdown(f"**🧑 You:** {msg}")
-        else:
-            st.markdown(f"**🤖 Assistant:** {msg}")
+        # Save assistant response
+        st.session_state.chat_history.append(("assistant", response))
