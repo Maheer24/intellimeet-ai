@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from backend.app.services.email_service import EmailService
-from backend.app.services.llm_service import LLMService
-from backend.app.services.meeting_service import MeetingService
-from backend.app.services.tasks_service import TaskService
-from backend.app.services.user_service import UserService
+from app.services.email_service import EmailService
+from app.services.llm_service import LLMService
+from app.services.meeting_service import MeetingService
+from app.services.tasks_service import TaskService
+from app.services.user_service import UserService
 from uuid import UUID
 from dotenv import load_dotenv
 import os

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from uuid import UUID
-from backend.app.services.tasks_service import TaskService
+from app.services.tasks_service import TaskService
 
 task_service = TaskService()
 

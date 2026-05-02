@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Body
 from uuid import UUID
-from backend.app.services.rag_service import RAGService
-from backend.app.services.vector_store import PineconeService
-from backend.app.services.embedding_service import EmbeddingService
-from backend.app.services.vector_store import PineconeService
-from backend.app.services.llm_service import LLMService
-from backend.app.services.tasks_service import TaskService
-from backend.app.services.memory_service import MemoryService
+from app.services.rag_service import RAGService
+from app.services.vector_store import PineconeService
+from app.services.embedding_service import EmbeddingService
+from app.services.vector_store import PineconeService
+from app.services.llm_service import LLMService
+from app.services.tasks_service import TaskService
+from app.services.memory_service import MemoryService
 
 embedding_service = EmbeddingService()
 pinecone_service = PineconeService()

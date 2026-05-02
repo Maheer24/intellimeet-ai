@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from backend.app.services.user_service import UserService
+from app.services.user_service import UserService
 from uuid import UUID
 from fastapi import Body
 

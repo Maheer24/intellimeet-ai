@@ -15,3 +15,5 @@ elif page == "IntelliChat":
     #st.write("Chat loaded")
     from pages.intellichat import show_chat
     show_chat()
+
+    

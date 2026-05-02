@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from backend.app.routers.email_router import router as email_router
-from backend.app.routers.meeting_router import router as meeting_router
-from backend.app.routers.task_router import router as task_router
-from backend.app.routers.user_router import router as user_router
-from backend.app.routers.chat_router import router as chat_router
+from app.routers.email_router import router as email_router
+from app.routers.meeting_router import router as meeting_router
+from app.routers.task_router import router as task_router
+from app.routers.user_router import router as user_router
+from app.routers.chat_router import router as chat_router
 
 app = FastAPI()
 

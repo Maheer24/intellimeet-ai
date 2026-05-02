@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 from uuid import UUID
-from backend.app.db.supabase_client import supabase
+from app.db.supabase_client import supabase
 import json
 import pandas as pd
 

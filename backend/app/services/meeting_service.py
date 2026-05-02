@@ -1,4 +1,4 @@
-from backend.app.db.supabase_client import supabase
+from app.db.supabase_client import supabase
 from uuid import UUID
 
 

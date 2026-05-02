@@ -44,7 +44,7 @@ class PineconeService:
                 upsert_data.append({
                     "id": str(uuid.uuid4()),
                     # convert numpy array to list
-                    "values": embedding.tolist(),
+                    "values": embedding,
                     "metadata": {
                         "meeting_id": str(meeting_id),
                         "text": chunk
@@ -67,7 +67,7 @@ class PineconeService:
                 filter_dict = {"meeting_id": {"$eq": str(meeting_id)}}
 
             response = self.index.query(
-                vector = query_embedding.tolist(),
+                vector = query_embedding,
                 top_k = top_k,
                 filter = filter_dict,
                 include_metadata = True,

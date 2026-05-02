@@ -1,5 +1,4 @@
 from sentence_transformers import SentenceTransformer
-from sklearn.preprocessing import normalize
 
 class EmbeddingService:
     """
@@ -14,9 +13,8 @@ class EmbeddingService:
 
     def generate_embeddings(self, chunks_list: list[str]) -> list[list[float]]:
         try:
-            embeddings = self.model.encode(chunks_list,batch_size=16, convert_to_numpy=True, show_progress_bar=True)
-            embeddings = normalize(embeddings)
-            return embeddings
+            embeddings = self.model.encode(chunks_list,batch_size=16, convert_to_numpy=True, show_progress_bar=True,normalize_embeddings=True)
+            return embeddings.tolist()
         
         except Exception as e:
             raise RuntimeError(f"Error generating embeddings: {e}")

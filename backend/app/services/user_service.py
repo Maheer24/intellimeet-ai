@@ -1,4 +1,4 @@
-from backend.app.db.supabase_client import supabase
+from app.db.supabase_client import supabase
 from uuid import UUID
 
 
@@ -23,17 +23,28 @@ class UserService:
 
     def get_user_by_name(self, name: str):
         try:
-            user = (
+            print(f"DEBUG name='{name}' len={len(name)} repr={repr(name)}")
+            # user = (
+            #     supabase.table("users")
+            #     .select("id", "email", "name")
+            #     .ilike("name", f"%{name}%")
+            #     .execute()
+            # )
+            users = (
                 supabase.table("users")
                 .select("id", "email", "name")
-                .ilike("name", f"%{name}%")
                 .execute()
             )
-
-            if not user.data:
+            print(f"DEBUG result: {users.data}")
+            matched_user = [user for user in users.data if name.lower() in user["name"].lower()]
+            if not matched_user:
                 raise RuntimeError(f"User not found {name}")
 
-            return user.data[0]
+            return matched_user[0]
+            # if not user.data:
+            #     raise RuntimeError(f"User not found {name}")
+
+            # return user.data[0]
 
         except Exception as e:
             raise RuntimeError(f"Error retrieving user: {e}")

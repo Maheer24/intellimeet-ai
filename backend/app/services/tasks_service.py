@@ -1,4 +1,4 @@
-from backend.app.db.supabase_client import supabase
+from app.db.supabase_client import supabase
 from datetime import date
 from uuid import UUID
 

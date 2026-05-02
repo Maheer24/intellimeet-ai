@@ -1,4 +1,4 @@
-from backend.app.utils.chunker import fixed_size_chunk_with_overlap
+from app.utils.chunker import fixed_size_chunk_with_overlap
 from uuid import UUID
 
 class RAGService:
